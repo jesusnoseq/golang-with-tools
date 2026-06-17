@@ -1,6 +1,6 @@
 # golang-with-tools
 
-Opinionated Docker image based on `golang` and `alpine` with common Go development tools pre-installed.
+Go development Docker image including golangci-lint, govulncheck, goimports, and sqlc
 
 ## Included Tools
 
