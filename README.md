@@ -4,13 +4,13 @@ Opinionated Docker image based on `golang` and `alpine` with common Go developme
 
 ## Included Tools
 
-| Tool | Description |
-|------|-------------|
-| make | Build tool (git, curl, wget, bash included in trixie) |
-| golangci-lint | Go linter aggregator |
-| goimports | Import formatter |
-| sqlc | SQL code generator |
-| govulncheck | Vulnerability scanner |
+| Tool          | Description                                           |
+|---------------|-------------------------------------------------------|
+| make          | Build tool (git, curl, wget, bash included in trixie) |
+| golangci-lint | Go linter aggregator                                  |
+| goimports     | Import formatter                                      |
+| sqlc          | SQL code generator                                    |
+| govulncheck   | Vulnerability scanner                                 |
 
 ## Usage
 
