@@ -41,11 +41,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        golang_version: ${{ fromJson(github.event.inputs.golang_versions) }}
-        golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions) }}
-        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions) }}
-        sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions) }}
-        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions) }}
+        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.4"]') }}
+        golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions || '["v2.12.2"]') }}
+        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.46.0"]') }}
+        sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions || '["v1.31.1"]') }}
+        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions || '["v1.1.4"]') }}
 
     steps:
       - name: Checkout
