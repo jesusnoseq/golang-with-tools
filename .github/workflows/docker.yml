@@ -41,11 +41,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.4"]') }}
-        golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions || '["v2.12.2"]') }}
-        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.46.0"]') }}
-        sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions || '["v1.31.1"]') }}
-        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions || '["v1.1.4"]') }}
+        golang_version: ${{ fromJson(github.event.inputs.golang_versions) }}
+        golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions) }}
+        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions) }}
+        sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions) }}
+        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions) }}
 
     steps:
       - name: Checkout
@@ -71,8 +71,8 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha,prefix=
-            type=raw,value=go${{ matrix.golang_version }}-lint${{ matrix.golangci_lint_version }}
+            type=sha,prefix=sha-
+            type=raw,value=go${{ matrix.golang_version }}-lint${{ matrix.golangci_lint_version }}-imports${{ matrix.goimports_version }}-sqlc${{ matrix.sqlc_version }}-vuln${{ matrix.govulncheck_version }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -89,3 +89,7 @@ jobs:
             GOVULNCHECK_VERSION=${{ matrix.govulncheck_version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Show generated tags
+        run: |
+          echo "${{ steps.meta.outputs.tags }}"
