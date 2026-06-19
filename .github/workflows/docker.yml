@@ -28,6 +28,10 @@ on:
         description: "govulncheck versions (JSON array)"
         required: false
         default: '["v1.1.4"]'
+      variants:
+        description: "Base image variants (JSON array)"
+        required: false
+        default: '["alpine", "trixie"]'
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/golang-with-tools
@@ -46,6 +50,7 @@ jobs:
         goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.46.0"]') }}
         sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions || '["v1.31.1"]') }}
         govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions || '["v1.1.4"]') }}
+        variant: ${{ fromJson(github.event.inputs.variants || '["alpine", "trixie"]') }}
 
     steps:
       - name: Checkout
@@ -67,12 +72,13 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha,prefix=sha-
-            type=raw,value=go${{ matrix.golang_version }}-lint${{ matrix.golangci_lint_version }}-imports${{ matrix.goimports_version }}-sqlc${{ matrix.sqlc_version }}-vuln${{ matrix.govulncheck_version }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' && matrix.variant == 'alpine' }}
+            type=raw,value=latest-${{ matrix.variant }},enable={{is_default_branch}}
+            type=semver,pattern={{version}}-${{ matrix.variant }}
+            type=semver,pattern={{major}}.{{minor}}-${{ matrix.variant }}
+            type=semver,pattern={{major}}-${{ matrix.variant }}
+            type=sha,prefix=sha-,suffix=-${{ matrix.variant }}
+            type=raw,value=go${{ matrix.golang_version }}-${{ matrix.variant }}-lint${{ matrix.golangci_lint_version }}-imports${{ matrix.goimports_version }}-sqlc${{ matrix.sqlc_version }}-vuln${{ matrix.govulncheck_version }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -83,6 +89,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             GOLANG_VERSION=${{ matrix.golang_version }}
+            VARIANT=${{ matrix.variant }}
             GOLANGCI_LINT_VERSION=${{ matrix.golangci_lint_version }}
             GOIMPORTS_VERSION=${{ matrix.goimports_version }}
             SQLC_VERSION=${{ matrix.sqlc_version }}
