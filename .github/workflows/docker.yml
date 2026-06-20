@@ -100,3 +100,20 @@ jobs:
       - name: Show generated tags
         run: |
           echo "${{ steps.meta.outputs.tags }}"
+
+  update-dockerhub-description:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Docker Hub description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ env.IMAGE_NAME }}
+          short-description: "Go dev image with golangci-lint, goimports, sqlc, and govulncheck"
+          readme-filepath: ./DOCKERHUB.md
