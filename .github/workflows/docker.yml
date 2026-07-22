@@ -11,7 +11,7 @@ on:
       golang_versions:
         description: "Go versions (JSON array)"
         required: false
-        default: '["1.26.4"]'
+        default: '["1.26.5"]'
       golangci_lint_versions:
         description: "golangci-lint versions (JSON array)"
         required: false
@@ -19,7 +19,7 @@ on:
       goimports_versions:
         description: "goimports versions (JSON array)"
         required: false
-        default: '["v0.46.0"]'
+        default: '["v0.48.0"]'
       sqlc_versions:
         description: "sqlc versions (JSON array)"
         required: false
@@ -27,7 +27,7 @@ on:
       govulncheck_versions:
         description: "govulncheck versions (JSON array)"
         required: false
-        default: '["v1.1.4"]'
+        default: '["v1.6.0"]'
       variants:
         description: "Base image variants (JSON array)"
         required: false
@@ -45,11 +45,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.4"]') }}
+        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.5"]') }}
         golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions || '["v2.12.2"]') }}
-        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.46.0"]') }}
+        goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.48.0"]') }}
         sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions || '["v1.31.1"]') }}
-        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions || '["v1.1.4"]') }}
+        govulncheck_version: ${{ fromJson(github.event.inputs.govulncheck_versions || '["v1.6.0"]') }}
         variant: ${{ fromJson(github.event.inputs.variants || '["alpine", "trixie"]') }}
 
     steps:
