@@ -11,7 +11,7 @@ on:
       golang_versions:
         description: "Go versions (JSON array)"
         required: false
-        default: '["1.26.5"]'
+        default: '["1.26.6"]'
       golangci_lint_versions:
         description: "golangci-lint versions (JSON array)"
         required: false
@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.5"]') }}
+        golang_version: ${{ fromJson(github.event.inputs.golang_versions || '["1.26.6"]') }}
         golangci_lint_version: ${{ fromJson(github.event.inputs.golangci_lint_versions || '["v2.12.2"]') }}
         goimports_version: ${{ fromJson(github.event.inputs.goimports_versions || '["v0.48.0"]') }}
         sqlc_version: ${{ fromJson(github.event.inputs.sqlc_versions || '["v1.31.1"]') }}
