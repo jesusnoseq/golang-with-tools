@@ -36,7 +36,7 @@ Common tag patterns:
 - `latest` — newest build from `main` (alpine variant)
 - `latest-alpine`, `latest-trixie` — newest build of each variant
 - `1.2.3-alpine`, `1.2-alpine`, `1-alpine` — semver tags per variant (from `v*` git tags)
-- `go1.26.6-alpine-lint...` — fully pinned tag capturing every tool version
+- `go1.27.2-alpine-lint...` — fully pinned tag capturing every tool version
 
 See all available tags on [Docker Hub](https://hub.docker.com/r/jesusnoseq/golang-with-tools/tags).
 
@@ -84,23 +84,23 @@ The Dockerfile is parameterized so you can pin every version via build args:
 
 ```bash
 docker build \
-  --build-arg GOLANG_VERSION=1.26.6 \
+  --build-arg GOLANG_VERSION=1.27.2 \
   --build-arg VARIANT=alpine \
-  --build-arg GOLANGCI_LINT_VERSION=v2.12.2 \
-  --build-arg GOIMPORTS_VERSION=v0.48.0 \
+  --build-arg GOLANGCI_LINT_VERSION=v2.14.0 \
+  --build-arg GOIMPORTS_VERSION=v0.52.0 \
   --build-arg SQLC_VERSION=v1.31.1 \
-  --build-arg GOVULNCHECK_VERSION=v1.6.0 \
+  --build-arg GOVULNCHECK_VERSION=v1.9.0 \
   -t golang-with-tools .
 ```
 
 | Build arg               | Default     | Purpose                              |
 |-------------------------|-------------|--------------------------------------|
-| `GOLANG_VERSION`        | `1.26.6`    | Go toolchain version                 |
+| `GOLANG_VERSION`        | `1.27.2`    | Go toolchain version                 |
 | `VARIANT`               | `alpine`    | Base image variant (`alpine`/`trixie`) |
-| `GOLANGCI_LINT_VERSION` | `v2.12.2`   | golangci-lint version                |
-| `GOIMPORTS_VERSION`     | `v0.48.0`   | goimports version                    |
+| `GOLANGCI_LINT_VERSION` | `v2.14.0`   | golangci-lint version                |
+| `GOIMPORTS_VERSION`     | `v0.52.0`   | goimports version                    |
 | `SQLC_VERSION`          | `v1.31.1`   | sqlc version                         |
-| `GOVULNCHECK_VERSION`   | `v1.6.0`    | govulncheck version                  |
+| `GOVULNCHECK_VERSION`   | `v1.9.0`    | govulncheck version                  |
 
 A multi-stage build compiles the tools in a builder stage and copies only the
 binaries into the final image to keep it lean.
