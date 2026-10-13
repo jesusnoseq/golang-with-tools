@@ -1,0 +1,95 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\nARG \\w+=(?<currentValue>\\S+)"
+      ]
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/docker\\.yml$/"
+      ],
+      "matchStrings": [
+        "golang_versions:\\n(?:[^\\n]*\\n){2}\\s+default: '\\[\"(?<currentValue>[^\"]+)\"\\]'",
+        "golang_versions \\|\\| '\\[\"(?<currentValue>[^\"]+)\"\\]'"
+      ],
+      "datasourceTemplate": "golang-version",
+      "depNameTemplate": "golang"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/docker\\.yml$/"
+      ],
+      "matchStrings": [
+        "golangci_lint_versions:\\n(?:[^\\n]*\\n){2}\\s+default: '\\[\"(?<currentValue>[^\"]+)\"\\]'",
+        "golangci_lint_versions \\|\\| '\\[\"(?<currentValue>[^\"]+)\"\\]'"
+      ],
+      "datasourceTemplate": "go",
+      "depNameTemplate": "github.com/golangci/golangci-lint/v2"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/docker\\.yml$/"
+      ],
+      "matchStrings": [
+        "goimports_versions:\\n(?:[^\\n]*\\n){2}\\s+default: '\\[\"(?<currentValue>[^\"]+)\"\\]'",
+        "goimports_versions \\|\\| '\\[\"(?<currentValue>[^\"]+)\"\\]'"
+      ],
+      "datasourceTemplate": "go",
+      "depNameTemplate": "golang.org/x/tools"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/docker\\.yml$/"
+      ],
+      "matchStrings": [
+        "sqlc_versions:\\n(?:[^\\n]*\\n){2}\\s+default: '\\[\"(?<currentValue>[^\"]+)\"\\]'",
+        "sqlc_versions \\|\\| '\\[\"(?<currentValue>[^\"]+)\"\\]'"
+      ],
+      "datasourceTemplate": "go",
+      "depNameTemplate": "github.com/sqlc-dev/sqlc"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/docker\\.yml$/"
+      ],
+      "matchStrings": [
+        "govulncheck_versions:\\n(?:[^\\n]*\\n){2}\\s+default: '\\[\"(?<currentValue>[^\"]+)\"\\]'",
+        "govulncheck_versions \\|\\| '\\[\"(?<currentValue>[^\"]+)\"\\]'"
+      ],
+      "datasourceTemplate": "go",
+      "depNameTemplate": "golang.org/x/vuln"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchDepNames": [
+        "golang"
+      ],
+      "groupName": "go toolchain"
+    }
+  ],
+  "schedule": [
+    "before 6am on monday"
+  ]
+}

@@ -1,11 +1,16 @@
+# renovate: datasource=golang-version depName=golang
 ARG GOLANG_VERSION=1.27.2
 ARG VARIANT=alpine
 
 FROM golang:${GOLANG_VERSION}-${VARIANT} AS builder
 
+# renovate: datasource=go depName=github.com/golangci/golangci-lint/v2
 ARG GOLANGCI_LINT_VERSION=v2.14.0
+# renovate: datasource=go depName=golang.org/x/tools
 ARG GOIMPORTS_VERSION=v0.52.0
+# renovate: datasource=go depName=github.com/sqlc-dev/sqlc
 ARG SQLC_VERSION=v1.31.1
+# renovate: datasource=go depName=golang.org/x/vuln
 ARG GOVULNCHECK_VERSION=v1.9.0
 
 RUN if [ -f /etc/alpine-release ]; then \
