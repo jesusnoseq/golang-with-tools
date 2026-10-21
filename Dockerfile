@@ -1,5 +1,5 @@
 # renovate: datasource=golang-version depName=golang
-ARG GOLANG_VERSION=1.27.2
+ARG GOLANG_VERSION=1.27.3
 ARG VARIANT=alpine
 
 FROM golang:${GOLANG_VERSION}-${VARIANT} AS builder
