@@ -108,12 +108,6 @@ date automatically by Renovate.
 A multi-stage build compiles the tools in a builder stage and copies only the
 binaries into the final image to keep it lean.
 
-Build with `--pull` to refresh the base image. OS packages are upgraded during
-the build to pick up available security fixes. Until a patched sqlc release is
-available, sqlc is built with pinned security overrides for `golang.org/x/net`,
-`google.golang.org/grpc`, and `github.com/google/cel-go` in the Dockerfile;
-Renovate tracks these overrides as well.
-
 ## CI/CD
 
 The GitHub Actions workflow ([`.github/workflows/docker.yml`](.github/workflows/docker.yml))
